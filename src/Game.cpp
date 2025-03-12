@@ -3,6 +3,7 @@
 #include "Renderer.hpp"
 #include "InputHandler.hpp"
 #include "Board.hpp"
+#include "raylib.h"
 
 
 void Game::run(){
@@ -21,6 +22,14 @@ void Game::run(){
         Renderer::drawPieces(); // Draw the pieces on the chess board
         InputHandler::HandleInput(); // Handle the input for the game
         
+        if (IsKeyPressed(KEY_R)){
+            Board::loadFromFEN(startfen);
+    
+        }
+
+        if (IsKeyPressed(KEY_Q)){
+            break;
+        }
 
         EndDrawing();
     }

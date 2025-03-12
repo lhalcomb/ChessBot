@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Renderer.hpp"
 #include "Board.hpp"
+#include "Move.hpp"
 
 
 
@@ -44,7 +45,7 @@ void InputHandler::HandleInput()
             } else {
                 char piece = Board::getPiece(selectedRank, selectedFile);
                 if (piece != '.') {
-                    std::string newFen = Board::movePiece(selectedRank, selectedFile, rank, file);
+                    std::string newFen = Move::movePiece(selectedRank, selectedFile, rank, file);
                     Board::loadFromFEN(newFen);
                     isPieceSelected = false;
                     Renderer::drawPieces(); 

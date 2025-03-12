@@ -12,7 +12,6 @@ Board::Board(const std::string& fen){
 }
 
 
-
 char Board::getPiece(int rank, int file){
     if (rank >= 0 && rank < 8 && file >= 0 && file < 8){
         return board[rank][file];
@@ -20,23 +19,6 @@ char Board::getPiece(int rank, int file){
         return '.';
     }
 
-};
-
-std::string Board::movePiece(int fromRank, int fromFile, int toRank, int toFile){
-    if (fromRank == toRank && fromFile == toFile){
-        return generateFEN();
-    }
-    
-    if ((board[fromRank][fromFile] == '.')){
-        return generateFEN();
-    }else if(board[toRank][toFile] != '.'){
-        board[toRank][toFile] = board[fromRank][fromFile];
-        board[fromRank][fromFile] = '.';
-    }
-
-    
-
-    return generateFEN();
 };
 
 void Board::printBoard() {
@@ -50,7 +32,13 @@ void Board::printBoard() {
 }
 
 void Board::loadFromFEN(const std::string &fenString)
-{
+{   
+    for (int r = 0; r < BOARD_SIZE; r++){
+        for (int f = 0; f < BOARD_SIZE; f++){
+            board[r][f] = '.';
+        }
+    }
+    
     std::string fen = fenString; // copy the fen string
     int rank = 0; int file = 0; //init rank and file
 
