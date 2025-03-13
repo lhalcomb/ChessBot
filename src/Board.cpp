@@ -31,7 +31,7 @@ void Board::printBoard() {
     std::cout << "-----------------" << std::endl;
 }
 
-void Board::loadFromFEN(const std::string &fenString)
+void Board::loadFromFEN(const std::string &fenString) //
 {   
     for (int r = 0; r < BOARD_SIZE; r++){
         for (int f = 0; f < BOARD_SIZE; f++){
@@ -57,6 +57,7 @@ void Board::loadFromFEN(const std::string &fenString)
             break; //accounts for castling rights in fen string
         }
     }
+    printBoard();
 }
 
 std::string Board::generateFEN()

@@ -19,8 +19,10 @@ void Game::run(){
         Renderer::drawBoard(); // Draw the chess board
         Renderer::drawCoords(); // Draw the coordinates for the chess board
         
-        Renderer::drawPieces(); // Draw the pieces on the chess board
+        
         InputHandler::HandleInput(); // Handle the input for the game
+        InputHandler::HighlightSquare(); // Highlight the square when the mouse is over it
+        Renderer::drawPieces(); // Draw the pieces on the chess board
         
         if (IsKeyPressed(KEY_R)){
             Board::loadFromFEN(startfen);

@@ -11,8 +11,7 @@ add_executable(ChessBot
     src/main.cpp 
     src/Game.cpp 
     src/Board.cpp 
-    src/MoveGeneration.cpp 
-    src/MoveExecution.cpp 
+    src/Move.cpp
     src/Evaluation.cpp 
     src/Search.cpp 
     src/InputHandler.cpp 
