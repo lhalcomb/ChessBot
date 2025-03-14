@@ -7,6 +7,7 @@
 
 
 
+
 bool InputHandler::isPieceSelected = false;
 int InputHandler::selectedRank = -1;
 int InputHandler::selectedFile = -1;
@@ -72,6 +73,8 @@ void InputHandler::HandleInput()
                     isPieceSelected = false;
                     isSquareHighlighted = false;
                     Renderer::drawPieces(); 
+
+                    Renderer::PlayMoveSound();
 
                 }
             }

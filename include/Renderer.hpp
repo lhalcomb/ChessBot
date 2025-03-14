@@ -1,3 +1,4 @@
+#pragma once
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
@@ -15,10 +16,12 @@ class Renderer {
         static void drawCoords(); // draws coordinate placements for ranks & files
         static void LoadTextures(); // Load the textures for the pieces
         static void UnloadTextures(); // Unload the textures for the pieces
+        static void PlayMoveSound(); // Play the move sound
     
     private:
         static Texture2D chessPieces; // Texture for the pieces
         static std::unordered_map<char, Rectangle> pieceRects; // Map of the piece textures
+        static Sound moveSound;
 };
 
 extern Font garamondFont; // Font for the ranks and files

@@ -12,6 +12,8 @@ const int OFFSET_TEXT = 20;
 const Color lightBrown = {196, 164, 132, 255};
 const Color darkBrown = {101, 67, 33, 255};
 
+Sound Renderer::moveSound;
+
 
 Texture2D Renderer::chessPieces;
 std::unordered_map<char, Rectangle> Renderer::pieceRects;
@@ -21,12 +23,19 @@ Vector2 position;
 void Renderer::LoadTextures(){
     chessPieces = LoadTexture("assets/chessPieces.png");
     garamondFont = LoadFont("assets/garamond.ttf");
+    moveSound = LoadSound("audio/move.wav");
 
     if (chessPieces.id == 0){
         std::cerr << "Error loading chess pieces texture" << std::endl;
     }else{
         std::cout << "Chess pieces texture loaded successfully" << std::endl;
     }
+    if (moveSound.frameCount == 0){
+        std::cerr << "Error loading move sound" << std::endl;
+    }else{
+        std::cout << "Move sound loaded successfully" << std::endl;
+    }
+
 
     float pieceWidth = chessPieces.width / 6;
     float pieceHeight = chessPieces.height / 2;
@@ -52,6 +61,12 @@ void Renderer::LoadTextures(){
 void Renderer::UnloadTextures(){
     UnloadTexture(chessPieces);
     UnloadFont(garamondFont);
+    UnloadSound(moveSound);
+}
+
+void Renderer::PlayMoveSound(){
+    std::cout << "Playing move sound" << std::endl;
+    PlaySound(moveSound);
 }
 
 void Renderer::drawBoard(){
@@ -93,8 +108,7 @@ void Renderer::drawCoords(){
 
 void Renderer::drawPieces(){
     // Draw the pieces on the board
-    // std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-    //std::string fen = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR";
+    
     int rank = 0; int file = 0;
     int squareSize = SQUARE_SIZE;
 
