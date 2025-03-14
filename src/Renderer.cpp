@@ -13,6 +13,8 @@ const Color lightBrown = {196, 164, 132, 255};
 const Color darkBrown = {101, 67, 33, 255};
 
 Sound Renderer::moveSound;
+Wave Renderer::moveWave;
+std::vector<SoundSnippet> Renderer::gameSounds; 
 
 
 Texture2D Renderer::chessPieces;
@@ -23,17 +25,18 @@ Vector2 position;
 void Renderer::LoadTextures(){
     chessPieces = LoadTexture("assets/chessPieces.png");
     garamondFont = LoadFont("assets/garamond.ttf");
-    moveSound = LoadSound("audio/move.wav");
+    moveWave = LoadWave("audio/chessSounds_fixed.wav");
 
     if (chessPieces.id == 0){
         std::cerr << "Error loading chess pieces texture" << std::endl;
     }else{
         std::cout << "Chess pieces texture loaded successfully" << std::endl;
     }
-    if (moveSound.frameCount == 0){
-        std::cerr << "Error loading move sound" << std::endl;
+    if (moveWave.frameCount == 0){
+        std::cerr << "Error loading move wave" << std::endl;
     }else{
-        std::cout << "Move sound loaded successfully" << std::endl;
+        std::cout << "Move wave loaded successfully" << std::endl;
+        moveSound = LoadSoundFromWave(moveWave);
     }
 
 
@@ -56,17 +59,53 @@ void Renderer::LoadTextures(){
         {'p', {5 * pieceWidth, pieceHeight, pieceWidth, pieceHeight}}  // Black Pawn
     };
 
+    gameSounds = {
+        {0.0f, 1.0f}, //Start
+        {1.0f, 1.5f}, //Move
+        {3.0f, 4.0f}, //Capture
+        {4.0f, 5.0f}, //Castle
+        {5.0f, 7.0f}, //StaleMate 
+        {7.0f, 8.0f}, //Check 
+        {9.0f, 10.0f}, //Checkmate
+        {10.0f, 11.0f} //Gameover
+    };
+
 }
 
 void Renderer::UnloadTextures(){
     UnloadTexture(chessPieces);
     UnloadFont(garamondFont);
     UnloadSound(moveSound);
+    UnloadWave(moveWave);
 }
 
-void Renderer::PlayMoveSound(){
-    std::cout << "Playing move sound" << std::endl;
-    PlaySound(moveSound);
+void Renderer::PlayGameSound(int soundIndex){
+    if (soundIndex < 0 || soundIndex >= gameSounds.size()) {
+        std::cerr << "Invalid sound index" << std::endl;
+        return;
+    }
+
+    SoundSnippet snippet = gameSounds[soundIndex];
+
+    int startFrame = snippet.startTime * moveWave.sampleRate;
+    int endFrame = startFrame + (snippet.duration * moveWave.sampleRate);
+
+   
+    // Ensure the end frame does not exceed the total frame count
+    if (endFrame > moveWave.frameCount) {
+        endFrame = moveWave.frameCount;
+    }
+
+    // Crop the wave to the desired snippet
+    Wave snippetWave = WaveCopy(moveWave);
+    WaveCrop(&snippetWave, startFrame, endFrame);
+
+    // Load the sound from the cropped wave
+    Sound snippetSound = LoadSoundFromWave(snippetWave);
+
+   PlaySound(snippetSound);
+
+    
 }
 
 void Renderer::drawBoard(){

@@ -4,6 +4,7 @@
 #include "Renderer.hpp"
 #include "Board.hpp"
 #include "Move.hpp"
+#include <vector>
 
 
 
@@ -14,6 +15,7 @@ int InputHandler::selectedFile = -1;
 int InputHandler::highlightRank = -1;
 int InputHandler::highlightFile = -1;
 bool InputHandler::isSquareHighlighted = false;
+
 
 
 void InputHandler::HighlightSelectedSquare(Vector2 mousePos, int& rank, int& file){
@@ -74,7 +76,7 @@ void InputHandler::HandleInput()
                     isSquareHighlighted = false;
                     Renderer::drawPieces(); 
 
-                    Renderer::PlayMoveSound();
+                    Renderer::PlayGameSound(1);
 
                 }
             }

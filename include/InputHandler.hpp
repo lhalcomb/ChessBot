@@ -3,6 +3,7 @@
 
 #include <raylib.h>
 
+
 class InputHandler {
     public: 
         static void HandleInput();
@@ -14,6 +15,7 @@ class InputHandler {
         static int selectedRank; static int selectedFile; // Rank and file of the selected piece
         static bool isSquareHighlighted;
         static int highlightRank; static int highlightFile; // Rank and file of the highlighted square
+        
 };
 
 #endif //INPUTHANDLER_HPP
