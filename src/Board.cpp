@@ -4,6 +4,9 @@
 #include <iostream>
 
 #define BOARD_SIZE 8
+ 
+
+
 
 char Board::board[8][8] = {}; 
 

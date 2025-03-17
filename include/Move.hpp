@@ -5,33 +5,14 @@
 
 #include <string>
 
-enum class PieceType {
-    PAWN,
-    KNIGHT,
-    BISHOP,
-    ROOK,
-    QUEEN,
-    KING
-};
-
-enum class PieceColor {
-    WhiteColor,
-    BlackColor
-};
-
+/*
 enum class MoveType {
     NORMAL,
     CASTLE,
     EN_PASSANT,
     PROMOTION
 };
-
-struct Piece {
-    PieceColor color;
-    PieceType type;
-    MoveType moveType;
-
-};
+*/
 
 class Move {
     public: 
