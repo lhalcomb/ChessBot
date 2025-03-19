@@ -11,7 +11,7 @@ void Game::run(){
     Renderer::LoadTextures(); // Load the textures for the pieces
     std::string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     Board board(startfen); // Initialize the board with the starting FEN
-    Board::printBoard();
+    //Board::printBoard();
     while (!WindowShouldClose()) { // Main game loop
         BeginDrawing();
         ClearBackground(LIGHTGRAY);

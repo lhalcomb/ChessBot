@@ -2,12 +2,13 @@
 #include "Board.hpp"
 #include "InputHandler.hpp"
 #include <iostream>
+#include <cstdint>
 
 #define BOARD_SIZE 8
  
 
 
-
+uint64_t Board::bitboard[2][6] = {0};  // Initialize all bitboards to 0
 char Board::board[8][8] = {}; 
 
 Board::Board(const std::string& fen){
@@ -24,6 +25,16 @@ char Board::getPiece(int rank, int file){
 
 };
 
+char Board::piecetoChar(int color, int pieceType){
+    
+   const char pieceChars[2][6] = {
+        {'K', 'Q', 'B', 'N', 'R', 'P'},
+        {'k', 'q', 'b', 'n', 'r', 'p'}
+    };
+
+    return pieceChars[color][pieceType];
+};
+
 void Board::printBoard() {
     for (int r = 0; r < BOARD_SIZE; r++) {
         for (int f = 0; f < BOARD_SIZE; f++) {
@@ -31,7 +42,10 @@ void Board::printBoard() {
         }
         std::cout << std::endl;
     }
-    std::cout << "-----------------" << std::endl;
+    
+    //make for bitboards
+
+
 }
 
 void Board::loadFromFEN(const std::string &fenString) //
@@ -61,6 +75,8 @@ void Board::loadFromFEN(const std::string &fenString) //
         }
     }
     printBoard();
+
+      // make for bitboards
 }
 
 std::string Board::generateFEN()
@@ -90,8 +106,11 @@ std::string Board::generateFEN()
             fen += "/"; //add / to the fen string
         }
     }
+    return fen; //return the fen string
+   
+    //make for bitboards
 
-    //fen += turnNCastlingGenerator(); //add the turn to the fen string
-
-    return fen;
+    
 };
+
+

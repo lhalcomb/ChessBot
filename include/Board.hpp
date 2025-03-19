@@ -2,6 +2,7 @@
 #define BOARD_HPP
 
 #include <string>
+#include <cstdint>
 
 #include "raylib.h"
 
@@ -43,19 +44,22 @@ class Board {
         static void loadFromFEN(const std::string& fenString);
         static std::string generateFEN();
         static char board[8][8];
+
         static u_int64_t boardState;
 
         static constexpr int White = 0;
         static constexpr int Black = 1;
 
         static constexpr int King = 1;
-        static constexpr int Pawn = 2;
-        static constexpr int Knight = 3;
-        static constexpr int Bishop = 4;
+        static constexpr int Queen = 2;
+        static constexpr int Bishop = 3;
+        static constexpr int Knight = 4;
         static constexpr int Rook = 5;
-        static constexpr int Queen = 6;
+        static constexpr int Pawn = 6; 
 
         static u_int64_t bitboard[2][6];
+        static char piecetoChar(int color, int pieceType);
+
 
 
 

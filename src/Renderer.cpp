@@ -174,5 +174,7 @@ void Renderer::drawPieces(){
             
         }
     }
+    
+    //make it for bitboards
 
 };
