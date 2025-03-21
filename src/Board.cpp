@@ -72,7 +72,7 @@ char Board::getPiece(int rank, int file){
 constexpr int Board::rankIndex(int square) { return square >> 3;}
 constexpr int Board::fileIndex(int square) { return square & 7;}
 constexpr int Board::squareIndex(int rank, int file) { return rank * BOARD_SIZE + file;}
-constexpr int Board::IndexFromCoord(int file, int rank) { return rank * BOARD_SIZE + file; }
+
 
 void Board::setPiece(int color, int pieceType, int square){
     int index = color * 6 + pieceType;
@@ -252,7 +252,7 @@ void Board::printBitBoard(Board &board){
 
     for (int rank = 7; rank >= 0; --rank) {
         for (int file = 0; file < 8; ++file) {
-            int square = IndexFromCoord(file, rank);
+            int square = squareIndex(rank, file);
             char pieceChar = '.'; // Default empty square
 
             // Check all bitboards for a piece at this square
