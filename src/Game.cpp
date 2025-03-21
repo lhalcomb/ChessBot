@@ -4,6 +4,8 @@
 #include "InputHandler.hpp"
 #include "Board.hpp"
 #include "raylib.h"
+#include <bitset>
+#include <iostream>
 
 
 void Game::run(){
@@ -11,7 +13,23 @@ void Game::run(){
     Renderer::LoadTextures(); // Load the textures for the pieces
     std::string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     Board board(startfen); // Initialize the board with the starting FEN
-    //Board::printBoard();
+    
+
+    // for (int color = 0; color < 2; color++){
+    //     for (int pieceType = 0; pieceType < 6; pieceType++){
+    //         Board::printBoard(Board::bitboard[color][pieceType]);
+    //     }
+
+    // }
+    // std::bitset<64> pawnPlacement(0x000000000000FF00ULL | 0x00FF000000000000ULL);
+    // std::bitset<64> BlackPawnBit(Board::bitboard[1][5]);
+    // std::cout << BlackPawnBit << std::endl;
+    // Board::printBoard(Board::bitboard[0][5]);
+    // Board::printBoard(BlackPawnBit.to_ullong());
+
+    Board::loadFen(board, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
+    
     while (!WindowShouldClose()) { // Main game loop
         BeginDrawing();
         ClearBackground(LIGHTGRAY);
