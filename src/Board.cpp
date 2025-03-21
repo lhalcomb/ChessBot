@@ -71,8 +71,8 @@ char Board::getPiece(int rank, int file){
 //Helper Functions
 constexpr int Board::rankIndex(int square) { return square >> 3;}
 constexpr int Board::fileIndex(int square) { return square & 7;}
-constexpr int Board::squareIndex(int rank, int file) { return rank * 8 + file;}
-constexpr int Board::IndexFromCoord(int file, int rank) { return rank * 8 + file; }
+constexpr int Board::squareIndex(int rank, int file) { return rank * BOARD_SIZE + file;}
+constexpr int Board::IndexFromCoord(int file, int rank) { return rank * BOARD_SIZE + file; }
 
 void Board::setPiece(int color, int pieceType, int square){
     int index = color * 6 + pieceType;
