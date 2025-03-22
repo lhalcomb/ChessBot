@@ -15,17 +15,14 @@ class Board {
     
     public:
         Board(const std::string& fen);
-        //static std::string fen;
 
         static char getPiece(int rank, int file);
-        static std::string movePiece(int fromRank, int fromFile, int toRank, int toFile);
-        static void printBoard();
         static void printBoard(u_int64_t bitboard);
 
-        static void loadFromFEN(const std::string& fenString);
-        static std::string generateFEN();
+        
+        static std::string generateFEN(Board &board);
         static void loadFen(Board &board, const std::string &fenString);
-        static char board[8][8];
+        
 
         
         static constexpr int White = 0; //0
@@ -38,20 +35,25 @@ class Board {
         static constexpr int Rook = 4; //101
         static constexpr int Pawn = 5; //111
 
-        std::array<u_int64_t, 12> bitboardState = {};
+
+
+        std::array<u_int64_t, 12> bitboardState;
         static constexpr int rankIndex(int square);
         static constexpr int fileIndex(int square);
         static constexpr int squareIndex(int rank, int file);
-        static constexpr int IndexFromCoord(int file, int rank);
         void setPiece(int color, int pieceType, int square);
         void removePiece(int color, int pieceType, int square);
         bool isSquareOccupied(int color, int pieceType, int square) const;
+        static bool isSquareOccupiedbyAnyPiece(Board &board, int square);
         static void printBitBoard(Board &board);
 
-        static u_int64_t bitboard[2][6];
+
+        bool getPieceAtSquare(int selectedSquare, int& color, int& pieceType);
+        int getPieceType(int square);
+        int getPieceColor(int square);
+
         static char piecetoChar(int color, int pieceType);
 
-        static void InitializeBitBoards();
 
     private:
         

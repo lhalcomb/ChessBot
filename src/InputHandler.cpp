@@ -18,6 +18,7 @@ bool InputHandler::isSquareHighlighted = false;
 
 
 
+
 void InputHandler::HighlightSelectedSquare(Vector2 mousePos, int& rank, int& file){
     // Highlight selected square when handling input
 
@@ -33,7 +34,7 @@ void InputHandler::HighlightSelectedSquare(Vector2 mousePos, int& rank, int& fil
 
 
 }
-void InputHandler::HandleInput()
+void InputHandler::HandleInput(Board &board)
 {
     /*
 
@@ -54,31 +55,31 @@ void InputHandler::HandleInput()
     
         int rank, file;
         getBoardPosition(mousePos, rank, file);
+        std::cout << "Rank: " << rank << " File: " << file << std::endl;
        
 
         bool Bounded = (rank >= 0 && rank < BOARD_SIZE && file >= 0 && file < BOARD_SIZE);
         if (Bounded) {
             if (!isPieceSelected) {
-                if (Board::getPiece(rank, file) != '.') {
+                if (Board::isSquareOccupiedbyAnyPiece(board, Board::squareIndex(rank, file))) {
                     isPieceSelected = true;
                     selectedRank = rank;
                     selectedFile = file;
                     HighlightSelectedSquare(mousePos, rank, file);
                 }
             } else {
-                char piece = Board::getPiece(selectedRank, selectedFile);
-                //HighlightSelectedSquare(mousePos, rank, file, isPieceSelected);
+                int selectedSquare = Board::squareIndex(selectedRank, selectedFile);
+                int color, pieceType;
 
-                if (piece != '.') {
-                    std::string newFen = Move::movePiece(selectedRank, selectedFile, rank, file);
-                    Board::loadFromFEN(newFen);
+                if (board.getPieceAtSquare(selectedSquare, color, pieceType)) {
+                    std::string newFen = Move::movePiece(board, selectedRank, selectedFile, rank, file);
+                    Board::loadFen(board, newFen);
                     isPieceSelected = false;
                     isSquareHighlighted = false;
-                    Renderer::drawPieces(); 
-
+                    Renderer::drawPieces(board);
                     Renderer::PlayGameSound(1);
-
                 }
+
             }
     
     }
@@ -87,7 +88,7 @@ void InputHandler::HandleInput()
 
 void InputHandler::HighlightSquare(){
     if (isSquareHighlighted){
-        DrawRectangle(BOARD_X + highlightFile * SQUARE_SIZE, BOARD_Y + highlightRank * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, RED);
+        DrawRectangle(BOARD_X + highlightFile * SQUARE_SIZE, BOARD_Y + (BOARD_SIZE - 1 - highlightRank) * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, RED);
     }
 };
 
@@ -98,8 +99,8 @@ void InputHandler::getBoardPosition(Vector2 mousePos, int& rank, int& file){
     int BoardY = BOARD_Y;
 
     file = (mousePos.x - BoardX) / SQUARE_SIZE;
-    //rank = BOARD_SIZE - (mousePos.y - BoardY) / SQUARE_SIZE;
-    rank = (mousePos.y - BoardY) / SQUARE_SIZE;
+    rank = BOARD_SIZE - (mousePos.y - BoardY) / SQUARE_SIZE;
+    //rank = (mousePos.y - BoardY) / SQUARE_SIZE;
 
     //std::cout << "Rank: " << rank << " File: " << file << std::endl;
     if (file < 0 || file >= BOARD_SIZE || rank < 0 || rank >= BOARD_SIZE){
@@ -107,4 +108,5 @@ void InputHandler::getBoardPosition(Vector2 mousePos, int& rank, int& file){
         file = -1;
     }
 
-};
+}
+

@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "Game.hpp"
 #include "Board.hpp"
+#include <bitset>
 
 
 
@@ -145,36 +146,44 @@ void Renderer::drawCoords(){
     }
 }
 
-void Renderer::drawPieces(){
+void Renderer::drawPieces(Board &board){
     // Draw the pieces on the board
     
-    int rank = 0; int file = 0;
     int squareSize = SQUARE_SIZE;
+    for (int pieceIndex = 0; pieceIndex < 12; pieceIndex++){
+        u_int64_t bitboard = board.bitboardState[pieceIndex];
+        while(bitboard){
+            int square = __builtin_ctzll(bitboard);
+            bitboard &= bitboard - 1;
 
-    for (int rank = 0; rank < BOARD_SIZE; rank++){
-        for (int file = 0; file < BOARD_SIZE; file++){
-            char piece = Board::board[rank][file];
-            if (piece != '.'){
-                if (pieceRects.find(piece) != pieceRects.end()){
-                    Rectangle pieceRect = pieceRects[piece];
-    
-                    // Define the destination rectangle where the piece will be drawn
-                    Rectangle destRect = {
-                        BOARD_X + file * squareSize, 
-                        BOARD_Y + rank * squareSize, 
-                        static_cast<float>(squareSize), // Scale width to fit square
-                        static_cast<float>(squareSize)  // Scale height to fit square
-                    };
+            int rank = square / 8;
+            int file = square % 8;
 
-                    Vector2 origin = { 0, 0 }; // No rotation, so origin stays at (0,0)
-                    
-                    DrawTexturePro(chessPieces, pieceRect, destRect, origin, 0.0f, WHITE);
-                }
+            // Get the piece character from the piece index
+            int color = pieceIndex / 6;
+            int pieceType = pieceIndex % 6;
+            char piece = Board::piecetoChar(color, pieceType);
+
+            if (pieceRects.find(piece) != pieceRects.end()){
+                Rectangle pieceRect = pieceRects[piece];
+
+                // Define the destination rectangle where the piece will be drawn
+                Rectangle destRect = {
+                    BOARD_X + file * squareSize, 
+                    BOARD_Y + (7 - rank) * squareSize, 
+                    static_cast<float>(squareSize), // Scale width to fit square
+                    static_cast<float>(squareSize)  // Scale height to fit square
+                };
+
+                Vector2 origin = { 0, 0 }; // No rotation, so origin stays at (0,0)
+                
+                DrawTexturePro(chessPieces, pieceRect, destRect, origin, 0.0f, WHITE);
             }
-            
+
         }
     }
+
     
-    //make it for bitboards
+   
 
 };

@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector> 
+#include "Board.hpp"
 
 struct SoundSnippet {
     float startTime;
@@ -18,7 +19,7 @@ const int BOARD_Y = 100;
 class Renderer {
     public:
         static void drawBoard();
-        static void drawPieces(); // draw the pieces on the board
+        static void drawPieces(Board &board); // draw the pieces on the board
         static void drawCoords(); // draws coordinate placements for ranks & files
         static void LoadTextures(); // Load the textures for the pieces
         static void UnloadTextures(); // Unload the textures for the pieces
