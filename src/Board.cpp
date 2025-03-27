@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <bitset>
 #include <unordered_map>
+#include <Move.hpp>
 
 #define BOARD_SIZE 8
  
@@ -15,13 +16,15 @@ Board::Board(const std::string& fen){
 
 }
 
-
-
 //Helper Functions
 constexpr int Board::rankIndex(int square) { return square >> 3;}
 constexpr int Board::fileIndex(int square) { return square & 7;}
 constexpr int Board::squareIndex(int rank, int file) { return rank * BOARD_SIZE + file;}
 
+Coord Board::getCoordFromIndex(int squareIndex)
+{
+    return {rankIndex(squareIndex), fileIndex(squareIndex)};
+}
 
 void Board::setPiece(int color, int pieceType, int square){
     int index = color * 6 + pieceType;
@@ -35,7 +38,7 @@ void Board::removePiece(int color, int pieceType, int square){
 
 bool Board::isSquareOccupied(int color, int pieceType, int square) const {
     int index = color * 6 + pieceType;
-    return bitboardState[index] & (1ULL << square) != 0;
+    return (bitboardState[index] & (1ULL << square)) != 0;
 }
 
 bool Board::isSquareOccupiedbyAnyPiece(Board &board, int square)
@@ -239,3 +242,11 @@ int Board::getPieceColor(int square)
     return -1;  // No piece found
 }
 
+void Board::genMovesForSquare(int square)
+{
+    std::vector<int> moves = Move::genLegalMoves(*this, square);
+    for (int move: moves){
+        std::cout << move << "-> " << square << std::endl;
+    }
+
+}

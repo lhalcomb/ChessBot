@@ -32,5 +32,49 @@ std::string Move::movePiece(Board &board, int fromRank, int fromFile, int toRank
     return Board::generateFEN(board);  // Call generateFEN on the Board instance
 }
 
+std::vector<int> Move::genLegalMoves(Board &board, int square)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genPsuedoLegalMoves(Board &board, int square)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genPawnMoves(Board &board, int square, int color)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genKnightMoves(int square)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genBishopMoves(Board &board, int square)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genRookMoves(Board &board, int square)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genQueenMoves(Board &board, int square)
+{
+    return std::vector<int>();
+}
+
+std::vector<int> Move::genKingMoves(int square)
+{
+    return std::vector<int>();
+}
+
+bool Move::isMoveLegal(const Board &board, int fromSquare, int toSquare)
+{
+    return false;
+}
 
 

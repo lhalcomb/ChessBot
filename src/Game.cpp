@@ -14,7 +14,11 @@ void Game::run(){
     std::string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     Board board(startfen); // Initialize the board with the starting FEN
     
-
+    // Coord coordFromIdx = Board::getCoordFromIndex(0);
+    // std::cout << "Rank: " << coordFromIdx.rank << " File: " << coordFromIdx.file << std::endl;
+    // int rectX = coordFromIdx.file * SQUARE_SIZE + BOARD_X;
+    // int rectY = (BOARD_SIZE - 1 - coordFromIdx.rank) * SQUARE_SIZE + BOARD_Y;
+    
     
     while (!WindowShouldClose()) { // Main game loop
         BeginDrawing();
@@ -28,7 +32,7 @@ void Game::run(){
         InputHandler::HandleInput(board); // Handle the input for the game
         InputHandler::HighlightSquare(); // Highlight the square when the mouse is over it
         Renderer::drawPieces(board); // Draw the pieces on the chess board
-        
+        //DrawRectangle(rectX, rectY, 100, 100, RED);
         if (IsKeyPressed(KEY_R)){
             Board::loadFen(board, startfen);
     

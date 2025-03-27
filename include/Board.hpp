@@ -11,6 +11,9 @@
  5 bit format for each piece. 01 - color white, 100 - piece type Bishop
 */
 
+struct Coord{ int rank; int file; }; 
+
+
 class Board {
     
     public:
@@ -41,6 +44,7 @@ class Board {
         static constexpr int rankIndex(int square);
         static constexpr int fileIndex(int square);
         static constexpr int squareIndex(int rank, int file);
+        static Coord getCoordFromIndex(int squareIndex);
         void setPiece(int color, int pieceType, int square);
         void removePiece(int color, int pieceType, int square);
         bool isSquareOccupied(int color, int pieceType, int square) const;
@@ -51,6 +55,8 @@ class Board {
         bool getPieceAtSquare(int selectedSquare, int& color, int& pieceType);
         int getPieceType(int square);
         int getPieceColor(int square);
+
+        void genMovesForSquare(int square);
 
         static char piecetoChar(int color, int pieceType);
 
