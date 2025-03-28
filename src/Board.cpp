@@ -204,6 +204,16 @@ void Board::printBitBoard(Board &board){
 bool Board::getPieceAtSquare(int selectedSquare, int &color, int &pieceType)
 {
     u_int64_t bit = 1ULL << selectedSquare;
+    
+    std::cout << "Checking square " << selectedSquare 
+          << " with bitmask " << std::bitset<64>(bit) << std::endl;
+    for (int c = 0; c < 2; ++c) {
+        for (int p = 0; p < 6; ++p) {
+        std::cout << "Bitboard " << (c * 6 + p) << ": " 
+                  << std::bitset<64>(this->bitboardState[c * 6 + p]) << std::endl;
+        }
+    }
+
     for (int c = 0; c < 2; ++c) {  // Iterate over colors (White, Black)
         for (int p = 0; p < 6; ++p) {  // Iterate over piece types (King, Queen, etc.)
             if (this->bitboardState[c * 6 + p] & bit) {
@@ -213,6 +223,7 @@ bool Board::getPieceAtSquare(int selectedSquare, int &color, int &pieceType)
             }
         }
     }
+
     return false; // No piece found at this square
 }
 

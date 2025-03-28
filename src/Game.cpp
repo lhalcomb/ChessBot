@@ -6,6 +6,7 @@
 #include "raylib.h"
 #include <bitset>
 #include <iostream>
+#include "PreCompMoveData.hpp"
 
 
 void Game::run(){
@@ -18,7 +19,13 @@ void Game::run(){
     // std::cout << "Rank: " << coordFromIdx.rank << " File: " << coordFromIdx.file << std::endl;
     // int rectX = coordFromIdx.file * SQUARE_SIZE + BOARD_X;
     // int rectY = (BOARD_SIZE - 1 - coordFromIdx.rank) * SQUARE_SIZE + BOARD_Y;
-    
+
+    //print the bitboards
+    // for (int i = 0; i < 12; i++){
+    //     std::cout << "Piece: " << i << std::endl;
+    //     Board::printBoard(board.bitboardState[i]);
+    // }
+   
     
     while (!WindowShouldClose()) { // Main game loop
         BeginDrawing();
@@ -28,11 +35,13 @@ void Game::run(){
         Renderer::drawBoard(); // Draw the chess board
         Renderer::drawCoords(); // Draw the coordinates for the chess board
         
-        
+        PreCompMoveData::Initialize(); // Initialize the precomputed move data
+
         InputHandler::HandleInput(board); // Handle the input for the game
         InputHandler::HighlightSquare(); // Highlight the square when the mouse is over it
         Renderer::drawPieces(board); // Draw the pieces on the chess board
         //DrawRectangle(rectX, rectY, 100, 100, RED);
+        //board.genMovesForSquare(8);
         if (IsKeyPressed(KEY_R)){
             Board::loadFen(board, startfen);
     

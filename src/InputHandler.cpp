@@ -1,10 +1,18 @@
+//Libraries
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <bitset>
+
+//Header Files
 #include "InputHandler.hpp"
 #include "Game.hpp"
-#include <iostream>
 #include "Renderer.hpp"
 #include "Board.hpp"
 #include "Move.hpp"
-#include <vector>
+
+#include "PreCompMoveData.hpp"
+
 
 
 
@@ -69,16 +77,50 @@ void InputHandler::HandleInput(Board &board)
                 }
             } else {
                 int selectedSquare = Board::squareIndex(selectedRank, selectedFile);
+                int targetSquare = Board::squareIndex(rank, file);
                 int color, pieceType;
 
-                if (board.getPieceAtSquare(selectedSquare, color, pieceType)) {
+                std::vector<int> legalMoves = Move::genLegalMoves(board, selectedSquare);
+                std::vector<int> pseudoLegalMoves = Move::genPsuedoLegalMoves(board, selectedSquare);
+                // for (int move: pseudoLegalMoves){
+                //     std::cout << move << " ";
+                // }
+                // std::cout << std::endl;
+
+                std::cout << "Legal moves for " << selectedSquare << ": ";
+                for (int move : legalMoves) std::cout << move << " ";
+                std::cout << std::endl;
+
+
+                if (std::find(legalMoves.begin(), legalMoves.end(), targetSquare) != legalMoves.end() && board.getPieceAtSquare(selectedSquare, color, pieceType)) {
                     std::string newFen = Move::movePiece(board, selectedRank, selectedFile, rank, file);
+
+                    std::cout << "Moving piece from " << selectedSquare << " to " << targetSquare << std::endl;
+                    std::cout << "New FEN: " << newFen << std::endl;
+
+                     //Debugging the precomputed move data
+                    std::cout << "Rook Moves at square 2: " << std::bitset<64>(PreCompMoveData::rookMoves[2]) << std::endl;
+                    std::cout << "Bishop Moves at square 2: " << std::bitset<64>(PreCompMoveData::bishopMoves[2]) << std::endl;
+                    std::cout << "Queen Moves at square 2: " << std::bitset<64>(PreCompMoveData::queenMoves[2]) << std::endl;
+
+                    std::cout << "Rook Moves at square 3: " << std::bitset<64>(PreCompMoveData::rookMoves[3]) << std::endl;
+                    std::cout << "Bishop Moves at square 3: " << std::bitset<64>(PreCompMoveData::bishopMoves[3]) << std::endl;
+                    std::cout << "Queen Moves at square 3: " << std::bitset<64>(PreCompMoveData::queenMoves[3]) << std::endl;
+
+                    std::cout << "Rook Moves at square 63: " << std::bitset<64>(PreCompMoveData::rookMoves[63]) << std::endl;
+
+
                     Board::loadFen(board, newFen);
                     isPieceSelected = false;
                     isSquareHighlighted = false;
                     Renderer::drawPieces(board);
                     Renderer::PlayGameSound(1);
+                }else{
+                    std::cout << "Invalid Move. Deselecting" << std::endl;
+                    isPieceSelected = false;
+                    isSquareHighlighted = false;
                 }
+
 
             }
     
@@ -109,4 +151,3 @@ void InputHandler::getBoardPosition(Vector2 mousePos, int& rank, int& file){
     }
 
 }
-

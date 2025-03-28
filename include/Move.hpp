@@ -16,12 +16,12 @@ class Move {
         static std::vector<int> genPsuedoLegalMoves(Board &board, int square);
 
         //get the all of the moves for each piece
-        static std::vector<int> genPawnMoves(Board &board, int square, int color);
-        static std::vector<int> genKnightMoves(int square);
-        static std::vector<int> genBishopMoves(Board &board, int square);
-        static std::vector<int> genRookMoves(Board &board, int square);
-        static std::vector<int> genQueenMoves(Board &board, int square);
-        static std::vector<int> genKingMoves(int square);
+        static uint64_t genPawnMoves(Board &board, int square, int color);
+        static uint64_t genKnightMoves(int square);
+        static uint64_t genBishopMoves(Board &board, int square);
+        static uint64_t genRookMoves(Board &board, int square);
+        static uint64_t genQueenMoves(Board &board, int square);
+        static uint64_t genKingMoves(int square);
 
         static bool isMoveLegal(const Board &board, int fromSquare, int toSquare);
         

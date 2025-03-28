@@ -46,6 +46,7 @@ void PreCompMoveData::Initialize() {
     
 
     // === Initialize the Knight Moves array & Knight Attacks ===
+
     std::vector<uint8_t> legalKnightMoves;
     uint64_t knightBitboard = 0;
     for (int delta: {15, 17, -17, -15, 10, -6, 6, -10}) {
@@ -77,7 +78,7 @@ void PreCompMoveData::Initialize() {
         }
     }
     kingMoves[squareIndex] = legalKingMoves;
-    kingAttacks[squareIndex] = kingBitboard;
+    kingAttacks[squareIndex] = kingBitboard; 
 
     // === Compute the Pawn Attacks ===
     std::vector<int> whitePawnAttacks, blackPawnAttacks;
@@ -95,8 +96,15 @@ void PreCompMoveData::Initialize() {
     pawnAttacksBlack[squareIndex] = blackPawnAttacks;
 
     // === Intialize the Sliding Piece Moves (Rook, Queen & Bishop) ===
+    rookMoves[squareIndex] = 0;
+    bishopMoves[squareIndex] = 0;
+    queenMoves[squareIndex] = 0; 
+
+
     for (int directionInd = 0; directionInd < 4; ++directionInd){
         int currentDirOffset = directionOffsets[directionInd];
+        //std::cout << "Direction Offset: " << currentDirOffset << std::endl;
+
         for (int n = 0; n < numSquaresToEdge[squareIndex][directionInd]; n++) {
             int targetSquare = squareIndex + currentDirOffset * (n + 1);
             rookMoves[squareIndex] |= 1ULL << targetSquare;
@@ -104,6 +112,8 @@ void PreCompMoveData::Initialize() {
     }
     for (int directionInd = 4; directionInd < 8; ++directionInd){
         int currentDirOffset = directionOffsets[directionInd];
+        //std::cout << "Direction Offset: " << currentDirOffset << std::endl;
+
         for (int n = 0; n < numSquaresToEdge[squareIndex][directionInd]; n++) {
             int targetSquare = squareIndex + currentDirOffset * (n + 1);
             bishopMoves[squareIndex] |= 1ULL << targetSquare;
