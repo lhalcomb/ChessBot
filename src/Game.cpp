@@ -6,7 +6,6 @@
 #include "raylib.h"
 #include <bitset>
 #include <iostream>
-#include "PreCompMoveData.hpp"
 
 
 void Game::run(){
@@ -35,7 +34,7 @@ void Game::run(){
         Renderer::drawBoard(); // Draw the chess board
         Renderer::drawCoords(); // Draw the coordinates for the chess board
         
-        PreCompMoveData::Initialize(); // Initialize the precomputed move data
+        //PreCompMoveData::Initialize(); // Initialize the precomputed move data
 
         InputHandler::HandleInput(board); // Handle the input for the game
         InputHandler::HighlightSquare(); // Highlight the square when the mouse is over it

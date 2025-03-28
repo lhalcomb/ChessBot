@@ -16,7 +16,7 @@ add_executable(ChessBot
     src/Search.cpp 
     src/InputHandler.cpp 
     src/Renderer.cpp
-    src/PreCompMoveData.cpp
+    
 )
 
 target_link_libraries(ChessBot raylib)

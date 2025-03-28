@@ -3,15 +3,22 @@
 #include <iostream>
 #include <bitset>
 #include <algorithm>
-#include "PreCompMoveData.hpp"
+#include "MagicBitboards.hpp"
 
-
-//char (&board)[8][8] = Board::board;
 
 
 std::string Move::movePiece(Board &board, int fromRank, int fromFile, int toRank, int toFile) {
+    int capturedPieceType, capturedPieceColor;
+
     int fromSquare = Board::squareIndex(fromRank, fromFile);
     int toSquare = Board::squareIndex(toRank, toFile);
+
+    capturedPieceType = board.getPieceType(toSquare);
+    capturedPieceColor = board.getPieceColor(toSquare);
+
+    if (capturedPieceType != -1 && capturedPieceColor != -1) {
+        board.removePiece(capturedPieceColor, capturedPieceType, toSquare);
+    }
 
     if (fromSquare == toSquare) {
         return Board::generateFEN(board);  // Call generateFEN on the Board instance
@@ -139,35 +146,98 @@ uint64_t Move::genKnightMoves(int square)
     // }
     // return moves;
 
-    return PreCompMoveData::knightAttacks[square];
+    // return PreCompMoveData::knightAttacks[square];
+
+    uint64_t moves = 0;
+    int rank = square / 8; int file = square % 8;
+    int offsets[8] = {6, 10, 15, 17, -6, -10, -15, -17};
+    for (int offset = 0; offset < 8; offset++)
+    {
+        int targetSquare = square + offsets[offset];
+        int targetRank = targetSquare / 8; int targetFile = targetSquare % 8;
+        if (targetRank >= 0 && targetRank < 8 && targetFile >= 0 && targetFile < 8)
+        {
+            if (std::max(std::abs(rank - targetRank), std::abs(file - targetFile)) <= 2)
+            {
+                moves |= (1ULL << targetSquare);
+            }
+        }
+        
+    }
+    return moves;
 }
 
 uint64_t Move::genBishopMoves(Board &board, int square)
 {
-    std::cout << "Bishop Moves for square " << square << ": " << std::bitset<64>(PreCompMoveData::bishopMoves[square]) << std::endl;
+    int directions[4] = {7, 9, -7, -9};
+    return genSlidingMoves(board, square, directions, 4);
 
-    return PreCompMoveData::bishopMoves[square];
 }
 
 uint64_t Move::genRookMoves(Board &board, int square)
 {
-    std::cout << "Rook Moves for square " << square << ": " << std::bitset<64>(PreCompMoveData::rookMoves[square]) << std::endl;
-    return PreCompMoveData::rookMoves[square];
+    int directions[4] = {1, -1, 8, -8};
+    return genSlidingMoves(board, square, directions, 4);
 }
 
 uint64_t Move::genQueenMoves(Board &board, int square)
 {
-    std::cout << "Queen Moves for square " << square << ": " << std::bitset<64>(PreCompMoveData::queenMoves[square]) << std::endl;
-    std::cout << "Queen Moves for square 3: " 
-          << std::bitset<64>(PreCompMoveData::queenMoves[3]) << std::endl;
-
-
-    return PreCompMoveData::queenMoves[square];
+  uint64_t bishopMoves = genBishopMoves(board, square);
+  uint64_t rookMoves = genRookMoves(board, square);
+  return bishopMoves | rookMoves;
 }
 
 uint64_t Move::genKingMoves(int square)
 {   
-    return PreCompMoveData::kingAttacks[square];
+    uint64_t moves = 0;
+    int rank = square / 8; int file = square % 8;
+    int offsets[8] = {1, -1, 8, -8, 7, -7, 9, -9};
+    for (int offset = 0; offset < 8; offset++)
+    {
+        int targetSquare = square + offsets[offset];
+        int targetRank = targetSquare / 8; int targetFile = targetSquare % 8;
+
+        if (targetRank >= 0 && targetRank < 8 && targetFile >= 0 && targetFile < 8)
+        {
+            if (std::max(std::abs(rank - targetRank), std::abs(file - targetFile)) <= 1)
+            {
+                moves |= (1ULL << targetSquare);
+                std::cout << "King moves: " << std::bitset<64>(moves) << std::endl;
+            }
+        }
+        
+    }
+    return moves;
+}
+uint64_t Move::genSlidingMoves(Board &board, int square, const int deltas[], int numDeltas) {
+    uint64_t moves = 0;
+    
+    for (int i = 0; i < numDeltas; i++) {
+        int direction = deltas[i];
+        int newSquare = square;
+
+        while (true) {
+            int oldRank = newSquare / 8; int oldFile = newSquare % 8;
+            newSquare += direction;
+            if (newSquare < 0 || newSquare >= 64) break;
+
+            int newRank = newSquare / 8; int newFile = newSquare % 8;
+            if (std::abs(newRank - oldRank) > 1 || std::abs(newFile - oldFile) > 1) break;
+
+
+            if (board.isSquareOccupiedbyAnyPiece(board, newSquare)){
+                if (board.getPieceColor(newSquare) != board.getPieceColor(square)){
+                    moves |= (1ULL << newSquare);
+                    std::cout << "Sliding moves: " << std::bitset<64>(moves) << std::endl;
+                }
+                break;
+            }
+
+            moves |= (1ULL << newSquare);
+            std::cout << "Sliding moves: " << std::bitset<64>(moves) << std::endl;
+        }
+    }
+    return moves;
 }
 //Check if there isn't a king in check, meaning it is a legal move
 bool Move::isMoveLegal(const Board &board, int fromSquare, int toSquare)

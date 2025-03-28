@@ -11,8 +11,6 @@
 #include "Board.hpp"
 #include "Move.hpp"
 
-#include "PreCompMoveData.hpp"
-
 
 
 
@@ -97,17 +95,6 @@ void InputHandler::HandleInput(Board &board)
 
                     std::cout << "Moving piece from " << selectedSquare << " to " << targetSquare << std::endl;
                     std::cout << "New FEN: " << newFen << std::endl;
-
-                     //Debugging the precomputed move data
-                    std::cout << "Rook Moves at square 2: " << std::bitset<64>(PreCompMoveData::rookMoves[2]) << std::endl;
-                    std::cout << "Bishop Moves at square 2: " << std::bitset<64>(PreCompMoveData::bishopMoves[2]) << std::endl;
-                    std::cout << "Queen Moves at square 2: " << std::bitset<64>(PreCompMoveData::queenMoves[2]) << std::endl;
-
-                    std::cout << "Rook Moves at square 3: " << std::bitset<64>(PreCompMoveData::rookMoves[3]) << std::endl;
-                    std::cout << "Bishop Moves at square 3: " << std::bitset<64>(PreCompMoveData::bishopMoves[3]) << std::endl;
-                    std::cout << "Queen Moves at square 3: " << std::bitset<64>(PreCompMoveData::queenMoves[3]) << std::endl;
-
-                    std::cout << "Rook Moves at square 63: " << std::bitset<64>(PreCompMoveData::rookMoves[63]) << std::endl;
 
 
                     Board::loadFen(board, newFen);

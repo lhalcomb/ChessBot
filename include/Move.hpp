@@ -18,6 +18,7 @@ class Move {
         //get the all of the moves for each piece
         static uint64_t genPawnMoves(Board &board, int square, int color);
         static uint64_t genKnightMoves(int square);
+        static uint64_t genSlidingMoves(Board &board, int square, const int deltas[], int numDeltas);
         static uint64_t genBishopMoves(Board &board, int square);
         static uint64_t genRookMoves(Board &board, int square);
         static uint64_t genQueenMoves(Board &board, int square);
