@@ -11,6 +11,7 @@
 void Game::run(){
     InitAudioDevice();
     Renderer::LoadTextures(); // Load the textures for the pieces
+    std::string debugFen = "rnbqkbnr/ppppQppp/8/8/8/8/PPPPPPPP/RNB1KBNR";
     std::string startfen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     Board board(startfen); // Initialize the board with the starting FEN
     

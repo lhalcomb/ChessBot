@@ -202,7 +202,7 @@ uint64_t Move::genKingMoves(int square)
             if (std::max(std::abs(rank - targetRank), std::abs(file - targetFile)) <= 1)
             {
                 moves |= (1ULL << targetSquare);
-                std::cout << "King moves: " << std::bitset<64>(moves) << std::endl;
+                //std::cout << "King moves: " << std::bitset<64>(moves) << std::endl;
             }
         }
         

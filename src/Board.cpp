@@ -205,14 +205,14 @@ bool Board::getPieceAtSquare(int selectedSquare, int &color, int &pieceType)
 {
     u_int64_t bit = 1ULL << selectedSquare;
     
-    std::cout << "Checking square " << selectedSquare 
-          << " with bitmask " << std::bitset<64>(bit) << std::endl;
-    for (int c = 0; c < 2; ++c) {
-        for (int p = 0; p < 6; ++p) {
-        std::cout << "Bitboard " << (c * 6 + p) << ": " 
-                  << std::bitset<64>(this->bitboardState[c * 6 + p]) << std::endl;
-        }
-    }
+    // std::cout << "Checking square " << selectedSquare 
+    //       << " with bitmask " << std::bitset<64>(bit) << std::endl;
+    // for (int c = 0; c < 2; ++c) {
+    //     for (int p = 0; p < 6; ++p) {
+    //     std::cout << "Bitboard " << (c * 6 + p) << ": " 
+    //               << std::bitset<64>(this->bitboardState[c * 6 + p]) << std::endl;
+    //     }
+    // }
 
     for (int c = 0; c < 2; ++c) {  // Iterate over colors (White, Black)
         for (int p = 0; p < 6; ++p) {  // Iterate over piece types (King, Queen, etc.)
@@ -256,8 +256,8 @@ int Board::getPieceColor(int square)
 void Board::genMovesForSquare(int square)
 {
     std::vector<int> moves = Move::genLegalMoves(*this, square);
-    for (int move: moves){
-        std::cout << move << "-> " << square << std::endl;
-    }
+    // for (int move: moves){
+    //     std::cout << move << "-> " << square << std::endl;
+    // }
 
 }

@@ -61,7 +61,7 @@ void InputHandler::HandleInput(Board &board)
     
         int rank, file;
         getBoardPosition(mousePos, rank, file);
-        std::cout << "Rank: " << rank << " File: " << file << std::endl;
+        //std::cout << "Rank: " << rank << " File: " << file << std::endl;
        
 
         bool Bounded = (rank >= 0 && rank < BOARD_SIZE && file >= 0 && file < BOARD_SIZE);
@@ -85,16 +85,16 @@ void InputHandler::HandleInput(Board &board)
                 // }
                 // std::cout << std::endl;
 
-                std::cout << "Legal moves for " << selectedSquare << ": ";
-                for (int move : legalMoves) std::cout << move << " ";
-                std::cout << std::endl;
+                // std::cout << "Legal moves for " << selectedSquare << ": ";
+                // for (int move : legalMoves) std::cout << move << " ";
+                // std::cout << std::endl;
 
 
                 if (std::find(legalMoves.begin(), legalMoves.end(), targetSquare) != legalMoves.end() && board.getPieceAtSquare(selectedSquare, color, pieceType)) {
                     std::string newFen = Move::movePiece(board, selectedRank, selectedFile, rank, file);
 
-                    std::cout << "Moving piece from " << selectedSquare << " to " << targetSquare << std::endl;
-                    std::cout << "New FEN: " << newFen << std::endl;
+                    // std::cout << "Moving piece from " << selectedSquare << " to " << targetSquare << std::endl;
+                    // std::cout << "New FEN: " << newFen << std::endl;
 
 
                     Board::loadFen(board, newFen);
@@ -103,7 +103,7 @@ void InputHandler::HandleInput(Board &board)
                     Renderer::drawPieces(board);
                     Renderer::PlayGameSound(1);
                 }else{
-                    std::cout << "Invalid Move. Deselecting" << std::endl;
+                    //std::cout << "Invalid Move. Deselecting" << std::endl;
                     isPieceSelected = false;
                     isSquareHighlighted = false;
                 }
