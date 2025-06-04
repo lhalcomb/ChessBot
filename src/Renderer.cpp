@@ -169,8 +169,8 @@ void Renderer::drawPieces(Board &board){
 
                 // Define the destination rectangle where the piece will be drawn
                 Rectangle destRect = {
-                    BOARD_X + file * squareSize, 
-                    BOARD_Y + (7 - rank) * squareSize, 
+                    static_cast<float>(BOARD_X + file * squareSize), 
+                    static_cast<float>(BOARD_Y + (7 - rank) * squareSize), 
                     static_cast<float>(squareSize), // Scale width to fit square
                     static_cast<float>(squareSize)  // Scale height to fit square
                 };
